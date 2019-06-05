@@ -1,8 +1,9 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
+import { Carusell, Area, useScale } from '../components/Prototype'
+import PathLink from '../components/Link/Path'
 import Frame from '../components/Frame'
 import Marketing from '../components/Marketing'
 import withInNativeApp from '../lib/withInNativeApp'
@@ -15,68 +16,25 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const styles = {
-  carusell: css({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    width: '100%',
-    overflowX: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    whiteSpace: 'nowrap',
-    paddingBottom: 10
-  }),
-  item: css({
-    display: 'inline-block',
-    boxSizing: 'content-box',
-    marginLeft: 15,
-    '&:last-child': {
-      marginRight: 15
-    },
-    '& img': {
-      width: '100%'
-    }
-  }),
-  area: css({
-    display: 'block',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0
-  })
-}
-
-const Carusell = ({ style, items, width = 316 }) => {
-  return (
-    <div {...styles.carusell} style={style}>
-      {items.map(([src, href], i) => (
-        <a key={i} href={href} {...styles.item} style={{ width }}>
-          <img src={`/static/prototype/card_${src}`} />
-        </a>
-      ))}
-    </div>
-  )
-}
-
 const StaticFront = () => {
+  const scale = Math.min(1, useScale(375))
   return (
-    <div style={{ position: 'relative', maxWidth: 375, margin: '0 auto' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', maxWidth: 375, margin: '0 auto' }}>
       <img width='100%' src='/static/prototype/front.png' />
 
-      <a href='/2019/05/18/am-ende-der-rebellion'
-        style={{ height: 365 }}
-        {...styles.area} />
-      <a href='/feed'
-        style={{ top: 700, height: 50 }}
-        {...styles.area} />
-      <Link route='prototype/criticism'>
-        <a style={{ top: 3255, height: 50 }}
-          {...styles.area} />
+      <PathLink path='/2019/05/18/am-ende-der-rebellion' passHref>
+        <Area style={{ height: 365 * scale }} />
+      </PathLink>
+      <Link route='feed' passHref>
+        <Area style={{ top: 700 * scale, height: 50 * scale }} />
+      </Link>
+      <Link route='prototype/criticism' passHref>
+        <Area style={{ top: 3255 * scale, height: 50 * scale }} />
       </Link>
 
       <Carusell
-        style={{ top: 1110 }}
-        width={225}
+        style={{ top: 1110 * scale }}
+        width={225 * scale}
         items={[
           [
             'bookmark-1.png'
@@ -87,8 +45,8 @@ const StaticFront = () => {
         ]} />
 
       <Carusell
-        style={{ top: 1430 }}
-        width={225}
+        style={{ top: 1430 * scale }}
+        width={225 * scale}
         items={[
           [
             'read-1.png'
@@ -99,7 +57,8 @@ const StaticFront = () => {
         ]} />
 
       <Carusell
-        style={{ top: 1790 }}
+        style={{ top: 1790 * scale }}
+        width={316 * scale}
         items={[
           [
             'serien-1.png',
@@ -119,7 +78,8 @@ const StaticFront = () => {
           ]
         ]} />
       <Carusell
-        style={{ top: 2630 }}
+        style={{ top: 2630 * scale }}
+        width={316 * scale}
         items={[
           [
             'kolumnen-1.png',
@@ -135,7 +95,8 @@ const StaticFront = () => {
           ]
         ]} />
       <Carusell
-        style={{ top: 3315 }}
+        style={{ top: 3315 * scale }}
+        width={316 * scale}
         items={[
           [
             'kritik-1.png',
