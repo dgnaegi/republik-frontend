@@ -22,9 +22,9 @@ const styles = {
     right: 0,
     width: '100%',
     overflowX: 'auto',
+    WebkitOverflowScrolling: 'touch',
     whiteSpace: 'nowrap',
     paddingBottom: 10
-    // opacity: 0.5
   }),
   item: css({
     display: 'inline-block',
