@@ -124,6 +124,7 @@ const styles = {
   }),
   secondary: css({
     position: 'relative',
+    zIndex: ZINDEX_HEADER,
     paddingLeft: 15,
     paddingRight: 15,
     display: 'block',
@@ -150,6 +151,14 @@ const styles = {
   }),
   hrThick: css({
     height: 3
+  }),
+  fixed: css({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    zIndex: ZINDEX_HEADER
   })
 }
 
@@ -193,14 +202,39 @@ class Header extends Component {
       backButton: hasBackButton(props)
     }
 
+    this.setFixedRef = ref => {
+      this.fixedRef = ref
+    }
+
+    this.diff = 0
     this.onScroll = () => {
-      // const y = window.pageYOffset
+      const y = window.pageYOffset
+      const diff = this.lastY
+        ? this.lastY - y
+        : 0
+      this.diff += diff
+      this.diff = Math.min(
+        Math.max(-this.height, this.diff),
+        0
+      )
+
+      if (this.diff !== this.lastDiff) {
+        this.fixedRef.style.top = `${this.diff}px`
+      }
+
+      this.lastY = y
+      this.lastDiff = this.diff
     }
 
     this.measure = () => {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       if (mobile !== this.state.mobile) {
-        this.setState(() => ({ mobile }))
+        this.setState({ mobile })
+      }
+      const { height } = this.fixedRef.getBoundingClientRect()
+      this.height = height
+      if (height !== this.state.height) {
+        this.setState({ height })
       }
       this.onScroll()
     }
@@ -249,7 +283,7 @@ class Header extends Component {
       isMember,
       headerAudioPlayer: HeaderAudioPlayer
     } = this.props
-    const { backButton } = this.state
+    const { backButton, height } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -283,113 +317,116 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined} style={bgStyle}>
-          {opaque && <Fragment>
-            <div {...styles.center} style={{ opacity: 1 }}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={e => {
-                  if (shouldIgnoreClick(e)) {
-                    return
-                  }
-                  e.preventDefault()
-                  if (router.pathname === '/') {
-                    window.scrollTo(0, 0)
-                    if (expanded) {
-                      toggleExpanded()
+        <div style={{ height }} />
+        <div {...height && styles.fixed} ref={this.setFixedRef}>
+          <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined} style={bgStyle}>
+            {opaque && <Fragment>
+              <div {...styles.center} style={{ opacity: 1 }}>
+                <a
+                  {...styles.logo}
+                  aria-label={t('header/logo/magazine/aria')}
+                  href={'/'}
+                  onClick={e => {
+                    if (shouldIgnoreClick(e)) {
+                      return
                     }
-                  } else {
-                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
+                    e.preventDefault()
+                    if (router.pathname === '/') {
+                      window.scrollTo(0, 0)
+                      if (expanded) {
+                        toggleExpanded()
+                      }
+                    } else {
+                      Router.pushRoute('index').then(() => window.scrollTo(0, 0))
+                    }
+                  }}
+                >
+                  <Logo fill={logoFill} />
+                </a>
+              </div>
+              {inNativeIOSApp && <a
+                style={{
+                  opacity: backButton ? 1 : 0,
+                  pointerEvents: backButton ? undefined : 'none',
+                  href: '#back'
+                }}
+                title={t('header/back')}
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (backButton) {
+                    routeChangeStarted = false
+                    window.history.back()
+                    setTimeout(
+                      () => {
+                        if (!routeChangeStarted) {
+                          Router.replaceRoute(
+                            'feed'
+                          ).then(() => window.scrollTo(0, 0))
+                        }
+                      },
+                      200
+                    )
                   }
                 }}
-              >
-                <Logo fill={logoFill} />
-              </a>
-            </div>
-            {inNativeIOSApp && <a
-              style={{
-                opacity: backButton ? 1 : 0,
-                pointerEvents: backButton ? undefined : 'none',
-                href: '#back'
-              }}
-              title={t('header/back')}
-              onClick={(e) => {
-                e.preventDefault()
-                if (backButton) {
-                  routeChangeStarted = false
-                  window.history.back()
-                  setTimeout(
-                    () => {
-                      if (!routeChangeStarted) {
-                        Router.replaceRoute(
-                          'feed'
-                        ).then(() => window.scrollTo(0, 0))
-                      }
-                    },
-                    200
-                  )
-                }
-              }}
-              {...styles.leftItem} {...styles.back}>
-              <BackIcon size={25} fill={textFill} />
-            </a>}
-            {isMember && <button
-              {...styles.search}
-              role='button'
-              title={t('header/nav/search/aria')}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                if (router.pathname === '/search') {
-                  window.scrollTo(0, 0)
-                } else {
-                  Router.pushRoute('search').then(() => window.scrollTo(0, 0))
-                }
-              }}>
-              <Search
-                fill={textFill}
-                size={28} />
-            </button>}
-            <div {...styles.hamburger} style={bgStyle}>
-              <Toggle
-                dark={dark}
-                expanded={expanded}
-                id='primary-menu'
-                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                onClick={toggleExpanded}
+                {...styles.leftItem} {...styles.back}>
+                <BackIcon size={25} fill={textFill} />
+              </a>}
+              {isMember && <button
+                {...styles.search}
+                role='button'
+                title={t('header/nav/search/aria')}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  if (router.pathname === '/search') {
+                    window.scrollTo(0, 0)
+                  } else {
+                    Router.pushRoute('search').then(() => window.scrollTo(0, 0))
+                  }
+                }}>
+                <Search
+                  fill={textFill}
+                  size={28} />
+              </button>}
+              <div {...styles.hamburger} style={bgStyle}>
+                <Toggle
+                  dark={dark}
+                  expanded={expanded}
+                  id='primary-menu'
+                  title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                  onClick={toggleExpanded}
+                />
+              </div>
+            </Fragment>}
+          </div>
+          {secondaryNav && <Fragment>
+            <hr
+              {...styles.hr}
+              {...styles.hrThin}
+              style={hrColorStyle} />
+            {HeaderAudioPlayer ? (
+              <HeaderAudioPlayer
+                style={{ ...bgStyle, width: '100%' }}
+                controlsPadding={this.state.mobile ? 10 : 20}
+                height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
               />
-            </div>
-          </Fragment>}
-        </div>
-        {secondaryNav && <Fragment>
-          <hr
-            {...styles.hr}
-            {...styles.hrThin}
-            style={hrColorStyle} />
-          {HeaderAudioPlayer ? (
-            <HeaderAudioPlayer
-              style={{ ...bgStyle, width: '100%' }}
-              controlsPadding={this.state.mobile ? 10 : 20}
-              height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
-            />
-          ) : (
-            <div {...styles.secondary} style={{
-              opacity: 1
-            }}>
-              {secondaryNav}
-            </div>
-          )}
+            ) : (
+              <div {...styles.secondary} style={{
+                opacity: 1
+              }}>
+                {secondaryNav}
+              </div>
+            )}
 
-        </Fragment>}
-        {opaque && <hr
-          {...styles.hr}
-          {...styles[formatColor ? 'hrThick' : 'hrThin']}
-          style={formatColor ? {
-            color: formatColor,
-            backgroundColor: formatColor
-          } : hrColorStyle} />}
+          </Fragment>}
+          {opaque && <hr
+            {...styles.hr}
+            {...styles[formatColor ? 'hrThick' : 'hrThin']}
+            style={formatColor ? {
+              color: formatColor,
+              backgroundColor: formatColor
+            } : hrColorStyle} />}
+        </div>
         <Popover expanded={expanded}>
           <NavPopover
             me={me}
