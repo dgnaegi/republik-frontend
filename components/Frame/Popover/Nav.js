@@ -10,7 +10,6 @@ import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
 
-import NavBar from '../NavBar'
 import { withMembership } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
@@ -128,10 +127,6 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
-      {isMember && <Fragment>
-        <NavBar router={router} />
-        <hr {...styles.hr} />
-      </Fragment>}
       <div {...styles.sections}>
         <div {...styles.section}>
           {me && (
@@ -215,6 +210,28 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           {isMember && (
             <Fragment>
               <NavLink
+                route='feed'
+                translation={t('navbar/feed')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='discussion'
+                translation={t('navbar/discussion')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {isMember && (
+            <Fragment>
+              <NavLink
                 route='formats'
                 translation={t('nav/formats')}
                 active={active}
@@ -223,13 +240,15 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
               <br />
             </Fragment>
           )}
-          <NavLink
-            route='community'
-            translation={t('nav/community')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
+          {!isMember && <Fragment>
+            <NavLink
+              route='community'
+              translation={t('nav/community')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </Fragment>}
           <NavLink
             route='events'
             translation={t('nav/events')}

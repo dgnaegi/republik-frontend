@@ -2,8 +2,9 @@ import { Logo } from '@project-r/styleguide'
 
 export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 45
-export const NAVBAR_HEIGHT = 41
-export const NAVBAR_HEIGHT_MOBILE = 36
+
+export const NAVBAR_HEIGHT = 0
+export const NAVBAR_HEIGHT_MOBILE = 0
 
 export const isPositionStickySupported = () => {
   const style = document.createElement('a').style
