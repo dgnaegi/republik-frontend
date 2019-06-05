@@ -129,6 +129,84 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
       <hr {...styles.hr} {...styles.hrFixed} />
       <div {...styles.sections}>
         <div {...styles.section}>
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='feed'
+                translation={t('navbar/feed')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='discussion'
+                translation={t('navbar/discussion')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='formats'
+                translation={t('nav/formats')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='bookmarks'
+                translation={t('nav/bookmarks')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+          {!isMember && <Fragment>
+            <NavLink
+              route='community'
+              translation={t('nav/community')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </Fragment>}
+          {!isMember && <Fragment>
+            <NavLink
+              route='events'
+              translation={t('nav/events')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </Fragment>}
+          <NavLink
+            route='legal/imprint'
+            translation={t('nav/team')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
+            route='meta'
+            translation={t('nav/meta')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+        </div>
+        <div {...styles.section} style={{ fontSize: 17 }}>
           {me && (
             <div>
               <NavLink
@@ -144,17 +222,6 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                     route='profile'
                     params={{ slug: me.username || me.id }}
                     translation={t('Frame/Popover/myprofile')}
-                    active={active}
-                    closeHandler={closeHandler}
-                  />
-                  <br />
-                </Fragment>
-              )}
-              {isMember && (
-                <Fragment>
-                  <NavLink
-                    route='bookmarks'
-                    translation={t('nav/bookmarks')}
                     active={active}
                     closeHandler={closeHandler}
                   />
@@ -193,6 +260,13 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                   <br />
                 </Fragment>
               )}
+              <NavLink
+                route='events'
+                translation={t('nav/events')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
             </div>
           )}
           {me ? (
@@ -205,70 +279,6 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             )} />
           )}
           <br />
-        </div>
-        <div {...styles.section}>
-          {isMember && (
-            <Fragment>
-              <NavLink
-                route='feed'
-                translation={t('navbar/feed')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
-          {isMember && (
-            <Fragment>
-              <NavLink
-                route='discussion'
-                translation={t('navbar/discussion')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
-          {isMember && (
-            <Fragment>
-              <NavLink
-                route='formats'
-                translation={t('nav/formats')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
-          {!isMember && <Fragment>
-            <NavLink
-              route='community'
-              translation={t('nav/community')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-          </Fragment>}
-          <NavLink
-            route='events'
-            translation={t('nav/events')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
-          <NavLink
-            route='legal/imprint'
-            translation={t('nav/team')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
-          <NavLink
-            route='meta'
-            translation={t('nav/meta')}
-            active={active}
-            closeHandler={closeHandler}
-          />
         </div>
       </div>
       {inNativeApp && <Footer />}
