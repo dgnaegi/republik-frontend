@@ -1,7 +1,5 @@
 import { Component } from 'react'
 import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
   ZINDEX_FEED_STICKY_SECTION_LABEL
 } from '../constants'
 import { css } from 'glamor'
@@ -11,6 +9,8 @@ import PropTypes from 'prop-types'
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
 const STICKY_HEADER_HEIGHT = 27
+const HEADER_HEIGHT = 0
+const HEADER_HEIGHT_MOBILE = 0
 
 const style = {
   header: css({

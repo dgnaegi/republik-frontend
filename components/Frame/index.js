@@ -6,10 +6,6 @@ import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -40,14 +36,6 @@ const styles = {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
-  }),
-  padHeader: css({
-    // minus 1px for first sticky hr from header
-    // - otherwise there is a jump when scroll 0 and opening hamburger
-    paddingTop: HEADER_HEIGHT_MOBILE - 1,
-    [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT - 1
-    }
   }),
   bodyGrower: css({
     flexGrow: 1

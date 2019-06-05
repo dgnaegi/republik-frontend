@@ -534,8 +534,8 @@ class ArticlePage extends Component {
         meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
-        showSecondary={this.state.showSecondary}
+        secondaryNav={(isMember && seriesNavButton)}
+        showSecondary={isMember && seriesNavButton ? this.state.showSecondary : true}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
       >

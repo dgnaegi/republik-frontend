@@ -52,15 +52,15 @@ const styles = {
     },
     display: 'flex',
     boxSizing: 'border-box',
-    top: HEADER_HEIGHT_MOBILE,
+    top: HEADER_HEIGHT_MOBILE * 2,
     left: 0,
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
+    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE * 2}px)`,
     width: '100vw',
     flexDirection: 'column',
     padding: 0,
     [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT,
-      height: `calc(100vh - ${HEADER_HEIGHT}px)`
+      top: HEADER_HEIGHT * 2,
+      height: `calc(100vh - ${HEADER_HEIGHT * 2}px)`
     }
   }),
   title: css({

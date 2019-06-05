@@ -4,17 +4,15 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
+import { Router, cleanAsPath } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { Router } from '../../lib/routes'
 
 import { Logo, colors, mediaQueries } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 
 import Toggle from './Toggle'
-import User from './User'
 import Popover from './Popover'
-import NavBar, { getNavBarStateFromRouter } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
@@ -27,14 +25,11 @@ import { shouldIgnoreClick } from '../Link/utils'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT,
-  NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE,
-  isPositionStickySupported
+  LOGO_PADDING_MOBILE
 } from '../constants'
 import { negativeColors } from './constants'
 
@@ -44,37 +39,29 @@ const TRANSITION_MS = 200
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
-    position: 'fixed',
-    '@media print': {
-      position: 'absolute'
-    },
-    top: 0,
-    left: 0,
-    right: 0
+    position: 'relative'
   }),
-  barOpaque: css({
-    height: HEADER_HEIGHT_MOBILE,
+  barPad: css({
+    minHeight: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
-    '@media print': {
-      backgroundColor: 'transparent'
+      minHeight: HEADER_HEIGHT
     }
   }),
   center: css({
     margin: '0 auto 0',
-    padding: '0 60px',
-    textAlign: 'center',
+    textAlign: 'left',
     transition: `opacity ${TRANSITION_MS}ms ease-in-out`
   }),
   logo: css({
     position: 'relative',
     display: 'inline-block',
     padding: LOGO_PADDING_MOBILE,
-    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
+    paddingLeft: 15,
+    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE + 15,
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
-      width: LOGO_WIDTH + LOGO_PADDING * 2
+      paddingLeft: 20,
+      width: LOGO_WIDTH + LOGO_PADDING + 20
     },
     verticalAlign: 'middle'
   }),
@@ -136,16 +123,16 @@ const styles = {
     }
   }),
   secondary: css({
-    position: 'absolute',
-    top: 0,
-    left: 15,
-    display: 'inline-block',
+    position: 'relative',
+    paddingLeft: 15,
+    paddingRight: 15,
+    display: 'block',
     height: HEADER_HEIGHT_MOBILE,
-    right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
     paddingTop: '10px',
     [mediaQueries.mUp]: {
+      paddingLeft: 20,
+      paddingRight: 20,
       height: HEADER_HEIGHT,
-      right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
       paddingTop: '18px'
     },
     transition: `opacity ${TRANSITION_MS}ms ease-in-out`
@@ -157,7 +144,7 @@ const styles = {
     // auto prefix does not with multiple values :(
     // - -webkit-sticky would be missing if not defined explicitly
     // - glamor 2.20.40 / inline-style-prefixer 3.0.8
-    position: ['fixed', '-webkit-sticky', 'sticky']
+    // position: ['fixed', '-webkit-sticky', 'sticky']
     // - this will produce three position statements
     // { position: fixed; position: -webkit-sticky; position: sticky; }
   }),
@@ -180,13 +167,6 @@ const styles = {
     top: HEADER_HEIGHT_MOBILE - 3,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT - 3
-    }
-  }),
-  hrFixedAfterNavBar: css({
-    position: 'fixed',
-    marginTop: NAVBAR_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      marginTop: NAVBAR_HEIGHT
     }
   })
 }
@@ -215,7 +195,7 @@ const forceRefRedraw = ref => {
 const hasBackButton = props => (
   props.inNativeIOSApp &&
   props.me &&
-  !getNavBarStateFromRouter(props.router).hasActiveLink
+  cleanAsPath(props.router.asPath) === '/'
 )
 
 let routeChangeStarted
@@ -228,8 +208,7 @@ class Header extends Component {
       opaque: !props.cover,
       mobile: false,
       expanded: false,
-      backButton: hasBackButton(props),
-      renderSecondaryNav: props.showSecondary
+      backButton: hasBackButton(props)
     }
 
     this.onScroll = () => {
@@ -259,11 +238,6 @@ class Header extends Component {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
-
-    const withoutSticky = !isPositionStickySupported()
-    if (withoutSticky) {
-      this.setState({ withoutSticky })
-    }
   }
 
   componentDidUpdate () {
@@ -283,15 +257,6 @@ class Header extends Component {
       })
     }
     clearTimeout(this.secondaryNavTimeout)
-    if (this.state.renderSecondaryNav !== nextProps.showSecondary) {
-      if (nextProps.showSecondary) {
-        this.setState({ renderSecondaryNav: true })
-      } else {
-        this.secondaryNavTimeout = setTimeout(() => {
-          this.setState({ renderSecondaryNav: false })
-        }, TRANSITION_MS)
-      }
-    }
   }
 
   render () {
@@ -301,7 +266,6 @@ class Header extends Component {
       me,
       cover,
       secondaryNav,
-      showSecondary,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
       formatColor,
@@ -310,7 +274,7 @@ class Header extends Component {
       isMember,
       headerAudioPlayer: HeaderAudioPlayer
     } = this.props
-    const { withoutSticky, backButton, renderSecondaryNav } = this.state
+    const { backButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -318,7 +282,6 @@ class Header extends Component {
       ? primaryNavExpanded
       : this.state.expanded
     )
-    const secondaryVisible = showSecondary && !expanded
     const dark = this.props.dark && !expanded
 
     const opaque = this.state.opaque || expanded
@@ -335,8 +298,6 @@ class Header extends Component {
     const textFill = dark ? negativeColors.text : colors.text
     const logoFill = dark ? '#fff' : '#000'
 
-    const showNavBar = false
-
     const toggleExpanded = () => {
       if (onPrimaryNavExpandedChange) {
         onPrimaryNavExpandedChange(!expanded)
@@ -349,7 +310,7 @@ class Header extends Component {
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined} style={bgStyle}>
           {opaque && <Fragment>
-            <div {...styles.center} style={{ opacity: secondaryVisible ? 0 : 1 }}>
+            <div {...styles.center} style={{ opacity: 1 }}>
               <a
                 {...styles.logo}
                 aria-label={t('header/logo/magazine/aria')}
@@ -371,16 +332,6 @@ class Header extends Component {
               >
                 <Logo fill={logoFill} />
               </a>
-            </div>
-            <div {...styles.leftItem} style={{
-              opacity: (secondaryVisible || backButton) ? 0 : 1
-            }}>
-              <User
-                dark={dark}
-                me={me}
-                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                onClick={toggleExpanded}
-              />
             </div>
             {inNativeIOSApp && <a
               style={{
@@ -409,15 +360,6 @@ class Header extends Component {
               {...styles.leftItem} {...styles.back}>
               <BackIcon size={25} fill={textFill} />
             </a>}
-            {secondaryNav && !HeaderAudioPlayer && (
-              <div {...styles.secondary} style={{
-                left: backButton ? 40 : undefined,
-                opacity: secondaryVisible ? 1 : 0,
-                pointerEvents: secondaryVisible ? undefined : 'none'
-              }}>
-                {renderSecondaryNav && secondaryNav}
-              </div>
-            )}
             {isMember && <button
               {...styles.search}
               role='button'
@@ -445,27 +387,30 @@ class Header extends Component {
               />
             </div>
           </Fragment>}
-          {HeaderAudioPlayer && (
+        </div>
+        {secondaryNav && <Fragment>
+          <hr
+            {...styles.stickyWithFallback}
+            {...styles.hr}
+            {...styles.hrThin}
+            style={hrColorStyle} />
+          {HeaderAudioPlayer ? (
             <HeaderAudioPlayer
-              style={{ ...bgStyle, position: 'absolute', width: '100%', bottom: 0 }}
+              style={{ ...bgStyle, width: '100%' }}
               controlsPadding={this.state.mobile ? 10 : 20}
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
+          ) : (
+            <div {...styles.secondary} style={{
+              opacity: 1
+            }}>
+              {secondaryNav}
+            </div>
           )}
-        </div>
-        {showNavBar && opaque && (
-          <Fragment>
-            <hr
-              {...styles.stickyWithFallback}
-              {...styles.hr}
-              {...styles.hrThin}
-              style={hrColorStyle} />
-            <NavBar fixed={withoutSticky} dark={dark} router={router} />
-          </Fragment>
-        )}
+
+        </Fragment>}
         {opaque && <hr
-          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
-          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles.stickyWithFallback}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {
