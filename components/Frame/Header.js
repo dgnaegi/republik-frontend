@@ -137,18 +137,8 @@ const styles = {
     },
     transition: `opacity ${TRANSITION_MS}ms ease-in-out`
   }),
-  sticky: css({
-    position: 'sticky'
-  }),
-  stickyWithFallback: css({
-    // auto prefix does not with multiple values :(
-    // - -webkit-sticky would be missing if not defined explicitly
-    // - glamor 2.20.40 / inline-style-prefixer 3.0.8
-    // position: ['fixed', '-webkit-sticky', 'sticky']
-    // - this will produce three position statements
-    // { position: fixed; position: -webkit-sticky; position: sticky; }
-  }),
   hr: css({
+    position: 'relative',
     margin: 0,
     display: 'block',
     border: 0,
@@ -156,18 +146,10 @@ const styles = {
     zIndex: ZINDEX_HEADER
   }),
   hrThin: css({
-    height: 1,
-    top: HEADER_HEIGHT_MOBILE - 1,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 1
-    }
+    height: 1
   }),
   hrThick: css({
-    height: 3,
-    top: HEADER_HEIGHT_MOBILE - 3,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT - 3
-    }
+    height: 3
   })
 }
 
@@ -205,20 +187,14 @@ class Header extends Component {
     super(props)
 
     this.state = {
-      opaque: !props.cover,
+      opaque: true,
       mobile: false,
       expanded: false,
       backButton: hasBackButton(props)
     }
 
     this.onScroll = () => {
-      const y = window.pageYOffset
-
-      const yOpaque = this.state.mobile ? 70 : 150
-      const opaque = y > yOpaque || !this.props.cover
-      if (opaque !== this.state.opaque) {
-        this.setState(() => ({ opaque }))
-      }
+      // const y = window.pageYOffset
     }
 
     this.measure = () => {
@@ -264,7 +240,6 @@ class Header extends Component {
       router,
       t,
       me,
-      cover,
       secondaryNav,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
@@ -390,7 +365,6 @@ class Header extends Component {
         </div>
         {secondaryNav && <Fragment>
           <hr
-            {...styles.stickyWithFallback}
             {...styles.hr}
             {...styles.hrThin}
             style={hrColorStyle} />
@@ -410,7 +384,6 @@ class Header extends Component {
 
         </Fragment>}
         {opaque && <hr
-          {...styles.stickyWithFallback}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {
@@ -427,7 +400,6 @@ class Header extends Component {
         <LoadingBar onRouteChangeStart={() => {
           routeChangeStarted = true
         }} />
-        {!!cover && <div {...styles.cover}>{cover}</div>}
         {inNativeApp && <Pullable dark={dark} onRefresh={() => {
           if (inNativeIOSApp) {
             postMessage({ type: 'haptic', payload: { type: 'impact' } })

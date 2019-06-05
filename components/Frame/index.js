@@ -67,7 +67,6 @@ const Index = ({
   raw,
   meta,
   nav,
-  cover,
   inNativeApp,
   inNativeIOSApp,
   onPrimaryNavExpandedChange,
@@ -80,13 +79,7 @@ const Index = ({
   dark
 }) => (
   <div {...styles.container}>
-    <div
-      {...styles.bodyGrower}
-      {...(!cover
-        ? styles.padHeader
-        : undefined
-      )}
-    >
+    <div {...styles.bodyGrower}>
       {dark && <style dangerouslySetInnerHTML={{
         __html: `html, body { background-color: ${negativeColors.containerBg}; color: ${negativeColors.text}; }`
       }} />}
@@ -94,7 +87,6 @@ const Index = ({
       <Header
         dark={dark && !inNativeIOSApp}
         me={me}
-        cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
