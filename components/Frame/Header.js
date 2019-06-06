@@ -208,7 +208,7 @@ class Header extends Component {
 
     this.diff = 0
     this.onScroll = () => {
-      const y = window.pageYOffset
+      const y = Math.max(window.pageYOffset, 0)
       const diff = this.lastY
         ? this.lastY - y
         : 0
