@@ -4,6 +4,8 @@ import Frame from '../../components/Frame'
 import { Carusell, Area, useScale } from '../../components/Prototype'
 import PathLink from '../../components/Link/Path'
 
+import { scrollIt } from '../../lib/utils/scroll'
+
 const StaticPage = () => {
   const scale = Math.min(1, useScale(375))
 
@@ -18,6 +20,10 @@ const StaticPage = () => {
           }}
           onClick={(e) => {
             setFilter(filter === 'buch' ? 'alle' : 'buch')
+            const target = 555 * scale
+            if (window.pageYOffset < target) {
+              scrollIt(target)
+            }
           }} />
         {filter === 'buch' && <Fragment>
           <PathLink path='/2019/06/03/das-glueck-meines-lebens' passHref>
