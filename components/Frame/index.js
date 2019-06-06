@@ -72,6 +72,7 @@ const Index = ({
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
+  secondaryNavExpanded,
   showSecondary,
   formatColor,
   headerAudioPlayer,
@@ -90,6 +91,7 @@ const Index = ({
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
+        secondaryNavExpanded={secondaryNavExpanded}
         showSecondary={showSecondary}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}

@@ -209,14 +209,25 @@ class Header extends Component {
     this.diff = 0
     this.onScroll = () => {
       const y = Math.max(window.pageYOffset, 0)
-      const diff = this.lastY
-        ? this.lastY - y
-        : 0
-      this.diff += diff
-      this.diff = Math.min(
-        Math.max(-this.height, this.diff),
-        0
+
+      const force = (
+        this.props.secondaryNavExpanded ||
+        (this.props.onPrimaryNavExpandedChange
+          ? this.props.primaryNavExpanded
+          : this.state.expanded)
       )
+      if (force) {
+        this.diff = 0
+      } else {
+        const diff = this.lastY
+          ? this.lastY - y
+          : 0
+        this.diff += diff
+        this.diff = Math.min(
+          Math.max(-this.height, this.diff),
+          0
+        )
+      }
 
       if (this.diff !== this.lastDiff) {
         this.fixedRef.style.top = `${this.diff}px`

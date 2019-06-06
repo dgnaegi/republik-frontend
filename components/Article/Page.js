@@ -535,6 +535,7 @@ class ArticlePage extends Component {
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={(isMember && seriesNavButton)}
+        secondaryNavExpanded={this.state.secondaryNavExpanded}
         showSecondary={isMember && seriesNavButton ? this.state.showSecondary : true}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
