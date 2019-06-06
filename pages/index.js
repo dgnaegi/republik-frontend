@@ -5,6 +5,7 @@ import { withRouter } from 'next/router'
 import { Carusell, Area, useScale } from '../components/Prototype'
 import PathLink from '../components/Link/Path'
 import Frame from '../components/Frame'
+import Front from '../components/Front'
 import Marketing from '../components/Marketing'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
@@ -120,6 +121,9 @@ const StaticFront = () => {
 }
 
 const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
+  if (router.query.extractId) {
+    return <Front extractId={router.query.extractId} />
+  }
   if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} />
   }
