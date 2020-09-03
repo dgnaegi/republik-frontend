@@ -167,7 +167,6 @@ const Index = ({
             )}
           </Header>
         </div>
-        {!inNativeApp && footer && <Footer />}
       </div>
     </ColorContext.Provider>
   )
