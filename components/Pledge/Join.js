@@ -5,7 +5,8 @@ import {
   Interaction,
   Button,
   fontStyles,
-  Editorial
+  Editorial,
+  A
 } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import isEmail from 'validator/lib/isEmail'
@@ -19,28 +20,22 @@ const OFFERS = [
     package: 'MONTHLY_ABO',
     label: 'Monats-Abo',
     price: 'CHF 22 pro Monat',
-    // text: 'Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen.',
-    benefits: ['Jederzeit kündbar']
+    text:
+      'Schön, dass Sie dabei sind. Sie erhalten täglich eine bis drei neue Geschichten.'
   },
   {
     package: 'ABO',
     label: 'Jahresmitgliedschaft',
     price: 'CHF 240 pro Jahr',
-    // text: 'Sie werden Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik.',
-    benefits: [
-      'Stimmrecht in der Project R Genossenschaft: den Weg der Republik mitbestimmen.',
-      'Tiefere Transaktionsgebühren: Sie zahlen rund 24 Franken weniger im Jahr als beim Monatsabo.'
-    ]
+    text:
+      'Sie erhalten täglich eine bis drei neue Geschichten und werden Mitglied der Project R Genossenschaft. Und sicheren so die Zukunft der Republik.'
   },
   {
     package: 'BENEFACTOR',
     label: 'Gönner',
     price: 'CHF 1000 pro Jahr',
-    // text: 'Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert.',
-    benefits: [
-      'Stimmrecht in der Project R Genossenschaft: den Weg der Republik mitbestimmen.',
-      'Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert».'
-    ]
+    text:
+      'Sie erhalten täglich eine bis drei neue Geschichten. Sie werden Mitglied der Project R Genossenschaft und Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert.'
   }
 ]
 
@@ -64,12 +59,13 @@ const Join = ({ t, black }) => {
       ]}
     >
       <form style={{ display: 'block', minHeight: 360 }}>
-        <Interaction.H2 style={{ marginBottom: 15 }}>
+        <Interaction.H1 style={{ marginBottom: 15 }}>
           Mitglied werden
-        </Interaction.H2>
+        </Interaction.H1>
         <Interaction.P style={{ marginBottom: 20 }}>
-          Wenn Sie weiterhin unabhängigen Journalismus wie diesen lesen wollen,
-          handeln Sie jetzt: Kommen Sie an Bord!
+          Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird
+          finanziert von ihren Leserinnen.{' '}
+          <Editorial.A href='/'>Mehr Informationen zur Republik.</Editorial.A>
         </Interaction.P>
         {OFFERS.map(offer => {
           const isSelected = offer === currentOffer
@@ -77,23 +73,28 @@ const Join = ({ t, black }) => {
             <div
               key={offer.package}
               style={{
-                borderBottom: isSelected
-                  ? `2px solid ${black ? '#000' : colors.primary}`
-                  : '2px solid transparent',
+                // borderBottom: isSelected
+                //   ? `2px solid ${black ? '#000' : colors.primary}`
+                //   : '2px solid transparent',
                 marginRight: 15,
                 marginBottom: 10,
                 paddingBottom: 5,
-                float: 'left',
-                fontSize: 22,
-                ...(isSelected && fontStyles.sansSerifMedium),
-                cursor: isSelected ? 'default' : 'pointer'
+                float: 'left'
+                // fontSize: 22,
+                // ...(isSelected && fontStyles.sansSerifMedium),
+                // cursor: isSelected ? 'default' : 'pointer'
               }}
               onClick={e => {
                 e.preventDefault()
                 setOffer(offer)
               }}
             >
-              <div>{offer.label}</div>
+              <Button
+                primary={isSelected}
+                style={{ cursor: isSelected ? 'default' : 'pointer' }}
+              >
+                {offer.label}
+              </Button>
             </div>
           )
         })}
@@ -150,6 +151,13 @@ const Join = ({ t, black }) => {
             }}
           />
         </div>
+        {currentOffer.package !== 'MONTHLY_ABO' && (
+          <div style={{ margin: '5px 0 30px' }}>
+            <A href='#'>
+              Alternative Zahlungsarten: Postcard, Paypal oder Banküberweisung
+            </A>
+          </div>
+        )}
         <div style={{ margin: '10px 0 20px' }}>
           <Consents
             black={black}
@@ -174,19 +182,9 @@ const Join = ({ t, black }) => {
         >
           {currentOffer.price}
         </Button>
-        <Editorial.UL compact>
-          <Editorial.LI>
-            <Interaction.P>
-              Sie erhalten täglich eine bis drei neue Geschichten. Als
-              Newsletter, im Web oder in der App.
-            </Interaction.P>
-          </Editorial.LI>
-          {currentOffer.benefits.map((benefit, i) => (
-            <Editorial.LI key={i}>
-              <Interaction.P>{benefit}</Interaction.P>
-            </Editorial.LI>
-          ))}
-        </Editorial.UL>
+        <div style={{ margin: '20px 0 20px' }}>
+          <A href='#'>Zum kompletten Angebot</A>
+        </div>
       </form>
     </Elements>
   )
