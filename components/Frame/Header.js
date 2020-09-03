@@ -262,23 +262,25 @@ const Header = ({
             </div>
             <div {...styles.navBarItem}>
               <div {...styles.rightBarItem}>
-                <div
-                  style={{
-                    backgroundColor: '#191919',
-                    color: colors.negative.text,
-                    height: 30,
-                    width: 120,
-                    verticalAlign: 'middle',
-                    marginRight: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Interaction.P style={{ color: 'white', fontSize: 16 }}>
-                    Mitmachen ♥︎
-                  </Interaction.P>
-                </div>
+                <a href='#' style={{ textDecoration: 'none' }}>
+                  <div
+                    style={{
+                      backgroundColor: '#191919',
+                      color: colors.negative.text,
+                      height: 30,
+                      width: 120,
+                      verticalAlign: 'middle',
+                      marginRight: 10,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Interaction.P style={{ color: 'white', fontSize: 16 }}>
+                      Mitmachen ♥︎
+                    </Interaction.P>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
