@@ -31,7 +31,7 @@ const User = ({ t, me, title, dark, backButton, onClick, isMobile }) => {
         {...styles.button}
         style={{
           color,
-          paddingLeft: backButton ? BUTTON_PADDING_MOBILE / 2 : 16
+          padding: '11px 6px 11px 11px'
         }}
         role='button'
         title={title}

@@ -268,7 +268,7 @@ const Header = ({
                       backgroundColor: '#191919',
                       color: colors.negative.text,
                       height: 30,
-                      width: 120,
+                      width: 132,
                       verticalAlign: 'middle',
                       marginRight: 10,
                       display: 'flex',
@@ -277,7 +277,7 @@ const Header = ({
                     }}
                   >
                     <Interaction.P style={{ color: 'white', fontSize: 16 }}>
-                      Mitmachen ♥︎
+                      Mitglied werden
                     </Interaction.P>
                   </div>
                 </a>
