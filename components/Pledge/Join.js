@@ -18,14 +18,14 @@ import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
 const OFFERS = [
   {
     package: 'MONTHLY_ABO',
-    label: 'Monats-Abo',
+    label: 'Monatlich',
     price: 'CHF 22 pro Monat',
     text:
       'Schön, dass Sie dabei sind. Sie erhalten täglich eine bis drei neue Geschichten.'
   },
   {
     package: 'ABO',
-    label: 'Jahresmitgliedschaft',
+    label: 'Jährlich',
     price: 'CHF 240 pro Jahr',
     text:
       'Sie erhalten täglich eine bis drei neue Geschichten und werden Mitglied der Project R Genossenschaft. Und sicheren so die Zukunft der Republik.'
@@ -41,7 +41,7 @@ const OFFERS = [
 
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
 
-const Join = ({ t, black }) => {
+const Join = ({ t, black, start }) => {
   const [currentOffer, setOffer] = useState(OFFERS[1])
   const [emailState, setEmailState] = useState({})
   const [consents, setConsents] = useState([])
@@ -59,13 +59,15 @@ const Join = ({ t, black }) => {
       ]}
     >
       <form style={{ display: 'block', minHeight: 360 }}>
-        <Interaction.H1 style={{ marginBottom: 15 }}>
+        <Interaction.H1 id='join' style={{ marginBottom: 15 }}>
           Mitglied werden
         </Interaction.H1>
         <Interaction.P style={{ marginBottom: 20 }}>
           Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird
           finanziert von ihren Leserinnen.{' '}
-          <Editorial.A href='/'>Mehr Informationen zur Republik.</Editorial.A>
+          {!start && (
+            <Editorial.A href='/'>Mehr Informationen zur Republik.</Editorial.A>
+          )}
         </Interaction.P>
         {OFFERS.map(offer => {
           const isSelected = offer === currentOffer
@@ -91,7 +93,10 @@ const Join = ({ t, black }) => {
             >
               <Button
                 primary={isSelected}
-                style={{ cursor: isSelected ? 'default' : 'pointer' }}
+                style={{
+                  minWidth: 'none',
+                  cursor: isSelected ? 'default' : 'pointer'
+                }}
               >
                 {offer.label}
               </Button>
@@ -184,6 +189,9 @@ const Join = ({ t, black }) => {
           style={
             black ? { backgroundColor: 'black', color: 'white' } : undefined
           }
+          onClick={e => {
+            e.preventDefault()
+          }}
         >
           {currentOffer.price}
         </Button>
@@ -194,7 +202,7 @@ const Join = ({ t, black }) => {
               e.preventDefault()
             }}
           >
-            Zum kompletten Angebot
+            Zum gesamten Angebot
           </A>
         </div>
       </form>

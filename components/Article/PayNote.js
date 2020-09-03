@@ -24,6 +24,7 @@ import withMemberStatus from '../../lib/withMemberStatus'
 import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
 import { parseJSONObject } from '../../lib/safeJSON'
 import { shouldIgnoreClick } from '../../lib/utils/link'
+import { scrollToEnd } from '../../lib/utils/scroll'
 
 const trialCampaigns = parseJSONObject(TRIAL_CAMPAIGNS)
 const trialAccessCampaignId =
@@ -322,12 +323,12 @@ const BuyButton = ({ payNote, payload, darkMode }) => (
     primary
     href={payNote.button.link}
     white={darkMode}
-    onClick={trackEventOnClick(
-      ['PayNote', `pledge ${payload.position}`, payload.variation],
-      () => goTo(payNote.button.link)
-    )}
+    onClick={e => {
+      e.preventDefault()
+      scrollToEnd()
+    }}
   >
-    {payNote.button.label}
+    Jetzt abonnieren
   </Button>
 )
 
@@ -354,7 +355,6 @@ const SecondaryCta = ({ payNote, payload, darkMode }) =>
 const BuyNoteCta = ({ payNote, payload, darkMode }) => (
   <div {...styles.actions}>
     <BuyButton darkMode={darkMode} payNote={payNote} payload={payload} />
-    <SecondaryCta darkMode={darkMode} payNote={payNote} payload={payload} />
   </div>
 )
 

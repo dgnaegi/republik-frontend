@@ -29,6 +29,8 @@ import Pullable from './Pullable'
 import Toggle from './Toggle'
 import SecondaryNav from './SecondaryNav'
 
+import { scrollToEnd } from '../../lib/utils/scroll'
+
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
@@ -263,7 +265,14 @@ const Header = ({
             </div>
             <div {...styles.navBarItem}>
               <div {...styles.rightBarItem}>
-                <a href='#' style={{ textDecoration: 'none' }}>
+                <a
+                  href='#'
+                  onClick={e => {
+                    e.preventDefault()
+                    scrollToEnd()
+                  }}
+                  style={{ textDecoration: 'none' }}
+                >
                   <div
                     style={{
                       backgroundColor: '#191919',

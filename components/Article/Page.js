@@ -67,6 +67,8 @@ import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
 
 import { onDocumentFragment } from '../Bookmarks/fragments'
 
+import Join from '../Pledge/Join'
+
 /*
  * import all react-apollo and graphql-tag functions
  * for dynamic components and specific ones for this page
@@ -558,9 +560,6 @@ class ArticlePage extends Component {
       />
     )
 
-    const payNoteAfter =
-      payNote && React.cloneElement(payNote, { position: 'after' })
-
     const splitContent = article && splitByTitle(article.content)
     const renderSchema = content =>
       renderMdast(
@@ -832,7 +831,9 @@ class ArticlePage extends Component {
                     <br />
                   </Fragment>
                 )}
-                {!suppressPayNotes && payNoteAfter}
+                <Center>
+                  <Join />
+                </Center>
               </Fragment>
             )
           }}
