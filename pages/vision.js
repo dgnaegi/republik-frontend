@@ -249,12 +249,8 @@ const MarketingPage = props => {
         )}
         <br />
         <br />
-        <Lead>
-          Unabhängiger Journalismus ohne Bullshit: Willkommen bei der Republik.
-        </Lead>
+        <Lead>Unabhängiger Journalismus ohne Bullshit.</Lead>
         {md(mdComponents)`
-
-Damit Sie uns vertrauen können, machen wir ein paar Dinge anders. Zum Beispiel sind wir komplett werbefrei. Und kompromisslos in der Qualität.
 
 Unser Ziel: Journalismus, der die Köpfe klarer, das Handeln mutiger, die Entscheidungen klüger macht. Und der das Gemeinsame stärkt: die Freiheit, den Rechtsstaat, die Demokratie.
 
