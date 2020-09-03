@@ -58,11 +58,11 @@ const Join = ({ t, black, start }) => {
         }
       ]}
     >
-      <form style={{ display: 'block', minHeight: 360 }}>
+      <form style={{ display: 'block', minHeight: 1000 }}>
         <Interaction.H1 id='join' style={{ marginBottom: 15 }}>
-          Mitglied werden
+          Abonnentin und Mitglied werden
         </Interaction.H1>
-        <Interaction.P style={{ marginBottom: 20 }}>
+        <Interaction.P style={{ fontSize: 17, marginBottom: 20 }}>
           Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird
           finanziert von ihren Leserinnen.{' '}
           {!start && (
@@ -70,41 +70,35 @@ const Join = ({ t, black, start }) => {
           )}
         </Interaction.P>
         {OFFERS.map(offer => {
-          const isSelected = offer === currentOffer
+          const isSelected = offer.package === currentOffer.package
           return (
             <div
               key={offer.package}
               style={{
-                // borderBottom: isSelected
-                //   ? `2px solid ${black ? '#000' : colors.primary}`
-                //   : '2px solid transparent',
+                borderBottom: isSelected
+                  ? `2px solid ${black ? '#000' : colors.primary}`
+                  : '2px solid transparent',
                 marginRight: 15,
                 marginBottom: 10,
                 paddingBottom: 5,
-                float: 'left'
-                // fontSize: 22,
-                // ...(isSelected && fontStyles.sansSerifMedium),
-                // cursor: isSelected ? 'default' : 'pointer'
+                float: 'left',
+                fontSize: 22,
+                ...(isSelected && fontStyles.sansSerifMedium),
+                cursor: isSelected ? 'default' : 'pointer'
               }}
               onClick={e => {
                 e.preventDefault()
                 setOffer(offer)
               }}
             >
-              <Button
-                primary={isSelected}
-                style={{
-                  minWidth: 'none',
-                  cursor: isSelected ? 'default' : 'pointer'
-                }}
-              >
-                {offer.label}
-              </Button>
+              {offer.label}
             </div>
           )
         })}
         <br style={{ clear: 'both' }} />
-        <Interaction.P>{currentOffer.text}</Interaction.P>
+        <Interaction.P style={{ fontSize: 17 }}>
+          {currentOffer.text}
+        </Interaction.P>
         <Field
           black={black}
           name='email'
