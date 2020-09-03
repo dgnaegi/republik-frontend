@@ -53,7 +53,7 @@ const Consents = withT(
                 event.target.getAttribute && event.target.getAttribute('href')
               if (
                 event.target.nodeName === 'A' &&
-                !shouldIgnoreClick(event) &&
+                !shouldIgnoreClick(event, true) &&
                 SUPPORTED_HREFS.includes(href)
               ) {
                 event.preventDefault()
