@@ -15,7 +15,9 @@ import {
   linkRule,
   Lead,
   Label,
-  LazyLoad
+  LazyLoad,
+  fontFamilies,
+  BrandMark as R
 } from '@project-r/styleguide'
 import Router, { withRouter } from 'next/router'
 import md from 'markdown-in-js'
@@ -92,6 +94,7 @@ const query = gql`
 
 const MEDIUM_MAX_WIDTH = 974
 const SMALL_MAX_WIDTH = 700
+const SPACE = 60
 
 const styles = {
   overviewOverflow: css({
@@ -157,8 +160,38 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: '50px 0'
     }
+  }),
+  highlight: css({
+    fontFamily: fontFamilies.serifBold,
+    fontSize: 24,
+    lineHeight: '36px'
+  }),
+  strong: css({
+    fontFamily: fontFamilies.serifBold
+  }),
+  column: css({
+    maxWidth: 500,
+    margin: `${SPACE}px auto`,
+    '& ::selection': {
+      color: '#fff',
+      backgroundColor: '#000'
+    }
+  }),
+  text: css({
+    marginTop: SPACE / 2,
+    marginBottom: SPACE,
+    fontFamily: fontFamilies.serifRegular,
+    fontSize: 18,
+    lineHeight: '27px'
   })
 }
+
+const Highlight = ({ children, ...props }) => (
+  <span {...props} {...styles.highlight}>
+    {children}
+  </span>
+)
+const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
 
 const MarketingPage = props => {
   useEffect(() => {
@@ -250,54 +283,57 @@ Weil Vertrauen im Journalismus die härteste Währung ist, haben wir die Republi
 
 **Wir stehen mit Ihnen im Dialog.** Und lieben es! Das Internet ermöglicht nicht nur viele neue Formen, wie wir Geschichten erzählen können, sondern auch den direkten Dialog mit Ihnen. Damit die Republik mit Ihrer Stimme vielfältiger, interessanter und reflektierter wird.
 
-## Was bekomme ich für mein Geld?
-
-Sie erhalten täglich eine bis drei neue Geschichten. Als Newsletter, im Web oder in der App. Das Konzept ist einfach: Einordnung und Vertiefung statt einer Flut von Nachrichten.
-
-Sie lesen und hören in der Republik zu allem, was aktuell, verworren, komplex – und für viele gerade wichtig ist. Derzeit beschäftigen uns Klima, Digitalisierung, Kinderbetreuung und besonders intensiv die Folgen des Aufstiegs autoritärer Politik für die Demokratie.
-
-Wir liefern Ihnen Recherchen, Analysen, Reportagen und Erklärartikel. Aufgemacht als digitales Magazin, mit ausgewählten Bildern, Illustrationen, Grafiken. Manchmal interaktiv. Manchmal als Podcast. Oder auch als Veranstaltung.
-
-Statt täglichen News fassen wir einmal pro Woche in Briefings das Wichtigste aus der Schweiz und der Welt zusammen, kompakt und übersichtlich – damit Sie nichts verpassen.
-
-Die Republik bietet ein vielfältiges Programm an Themen, Autorinnen und Formaten. Und Sie entscheiden selbst, wie Sie die Republik nutzen möchten: täglich, wöchentlich oder unregelmässig; alles oder nur ausgewählte Beiträge, aktiv im Dialog mit anderen oder einfach ganz für sich allein einen Podcast geniessen.
-
-Sie können Beiträge, die Sie besonders freuen oder ärgern, jederzeit mit Ihren Freunden teilen, selbst wenn diese kein Abo haben. Alle Beiträge der Republik sind frei teilbar, damit unser Journalismus möglichst viele Menschen erreicht. 
-
-Und einen entscheidenden Unterschied machen kann. Die Republik ist politisch nicht festgelegt, aber keineswegs neutral: Sie steht gegen die Diktatur der Angst. Und für die Werte der Aufklärung: für Klarheit im Stil, Treue zu Fakten, für Lösungen von Fall zu Fall, für Offenheit gegenüber Kritik, Respektlosigkeit vor der Macht und Respekt vor dem Menschen.
-
       `}
-
-        {inNativeIOSApp ? (
-          <br />
-        ) : (
-          <div
-            {...sharedStyles.actions}
-            style={{ marginTop: 20, marginBottom: 40 }}
-          >
-            <div>
-              <Link route='pledge' params={{ package: 'ABO' }}>
-                <button {...buttonStyles.primary}>
-                  {t('marketing/join/ABO/button/label')}
-                </button>
-              </Link>
-            </div>
-            {hasActiveMembershipOrAccessGrant ? (
-              <Link route='index'>
-                <button {...buttonStyles.standard}>
-                  {t('marketing/magazine/button/label')}
-                </button>
-              </Link>
-            ) : (
-              <Link route='pledge' params={{ package: 'MONTHLY_ABO' }}>
-                <button {...buttonStyles.standard}>
-                  {t('marketing/join/MONTHLY_ABO/button/label')}
-                </button>
-              </Link>
-            )}
-          </div>
-        )}
       </Container>
+
+      <div
+        style={{
+          backgroundColor: 'black',
+          color: 'white',
+          padding: 20,
+          marginTop: SPACE,
+          marginBottom: SPACE
+        }}
+      >
+        <div {...styles.column}>
+          <R fill='white' />
+
+          <div {...styles.text}>
+            <Highlight>Ohne Journalismus keine Demokratie.</Highlight>
+            <br />
+            Und ohne Demokratie keine Freiheit. Wenn der Journalismus stirbt,
+            stirbt auch die{' '}
+            <Strong>
+              offene Gesellschaft, das freie Wort, der Wettbewerb der besten
+              Argumente. Freier Journalismus
+            </Strong>{' '}
+            war die erste Forderung der <Strong>liberalen Revolution.</Strong>{' '}
+            Und das Erste, was jede Diktatur wieder abschafft. Journalismus ist
+            ein Kind <Strong>der Aufklärung.</Strong> Seine Aufgabe ist die{' '}
+            <Strong>Kritik der Macht.</Strong> Deshalb ist Journalismus mehr als
+            nur ein Geschäft für irgendwelche Konzerne. Wer Journalismus macht,
+            übernimmt <Strong>Verantwortung für die Öffentlichkeit.</Strong>{' '}
+            Denn in der Demokratie gilt das Gleiche wie überall im Leben:
+            Menschen brauchen{' '}
+            <Strong>
+              vernünftige Informationen, um vernünftige Entscheidungen zu
+              treffen.
+            </Strong>{' '}
+            Guter Journalismus schickt{' '}
+            <Strong>Expeditionsteams in die Wirklichkeit.</Strong> Seine Aufgabe
+            ist, den Bürgerinnen und Bürgern die{' '}
+            <Strong>Fakten und Zusammenhänge</Strong> zu liefern, pur,{' '}
+            <Strong>unabhängig,</Strong> nach bestem Gewissen,{' '}
+            <Strong>ohne Furcht</Strong> vor niemandem als der Langweile.
+            Journalismus strebt nach <Strong>Klarheit</Strong>, er ist{' '}
+            <Strong>der Feind der uralten Angst vor dem Neuen.</Strong>{' '}
+            Journalismus braucht <Strong>Leidenschaft,</Strong> Können und
+            Ernsthaftigkeit. Und ein aufmerksames, neugieriges,{' '}
+            <Strong>furchtloses Publikum.</Strong>{' '}
+            <Highlight style={{ verticalAlign: 'top' }}>Sie!</Highlight>
+          </div>
+        </div>
+      </div>
 
       <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
         {md(mdComponents)`
