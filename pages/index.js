@@ -83,7 +83,10 @@ const FullFrontal = () => {
           }}
         >
           <div {...styles.carusell}>
-            <div {...styles.item} style={{ width: 315 * scale }}>
+            <div
+              {...styles.item}
+              style={{ paddingLeft: 15 * scale, width: 315 * scale }}
+            >
               <PathLink
                 path='/2020/09/02/vom-zauber-des-belanglosen-innehaltens'
                 passHref
@@ -110,12 +113,12 @@ const FullFrontal = () => {
             <div
               {...styles.item}
               style={{
-                width: 375 * scale /* 470 */,
+                width: 375 * scale,
                 verticalAlign: 'top',
-                paddingTop: 15
+                paddingTop: 5
               }}
             >
-              <img src='/static/marketing/card1.png' />
+              <img src='/static/marketing/card1_b.png' />
             </div>
           </div>
 
@@ -161,8 +164,51 @@ const FullFrontal = () => {
       >
         <br />
         <br />
+        <img
+          style={{ display: 'block' }}
+          width='100%'
+          src='/static/marketing/community_0.png'
+        />
+        <PathLink path='/2020/09/01/der-patriarch-in-dir' passHref>
+          <a style={{ textDecoration: 'none' }}>
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/community_1.png'
+            />
+          </a>
+        </PathLink>
+        <img
+          style={{ display: 'block' }}
+          width='100%'
+          src='/static/marketing/community_2.png'
+        />
+        <PathLink path='/2020/08/29/die-sklaverei-erzaehlen' passHref>
+          <a style={{ textDecoration: 'none' }}>
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/community_3.png'
+            />
+          </a>
+        </PathLink>
         <br />
-        <Join start />
+        <br />
+        <PathLink path='/vision' passHref>
+          <a style={{ textDecoration: 'none' }}>
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/mission.png'
+            />
+          </a>
+        </PathLink>
+        <br />
+        <br />
+        <br />
+        <div style={{ padding: 15 }}>
+          <Join start />
+        </div>
       </div>
     </Frame>
   )
