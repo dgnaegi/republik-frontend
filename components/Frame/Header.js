@@ -133,7 +133,7 @@ const Header = ({
       }
 
       if (diff.current !== lastDiff.current) {
-        fixedRef.current.style.top = `${diff.current}px`
+        // fixedRef.current.style.top = `${diff.current}px`
         setHeaderOffset(diff.current)
       }
 
@@ -194,7 +194,8 @@ const Header = ({
         <div
           {...styles.navBar}
           style={{
-            backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+            backgroundColor: dark ? colors.negative.primaryBg : '#fff',
+            top: '0'
           }}
           ref={fixedRef}
         >
