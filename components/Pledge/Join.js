@@ -62,7 +62,9 @@ const Join = ({ t, black, start }) => {
         <Interaction.H1 id='join' style={{ marginBottom: 15 }}>
           Abonnentin und Mitglied werden
         </Interaction.H1>
-        <Interaction.P style={{ fontSize: 17, marginBottom: 20 }}>
+        <Interaction.P
+          style={{ fontSize: 17, lineHeight: '26px', marginBottom: 20 }}
+        >
           Unabhängiger Journalismus kostet. Die Republik ist werbefrei und wird
           finanziert von ihren Leserinnen.{' '}
           {!start && (
@@ -96,7 +98,7 @@ const Join = ({ t, black, start }) => {
           )
         })}
         <br style={{ clear: 'both' }} />
-        <Interaction.P style={{ fontSize: 17 }}>
+        <Interaction.P style={{ fontSize: 17, lineHeight: '26px' }}>
           {currentOffer.text}
         </Interaction.P>
         <Field
