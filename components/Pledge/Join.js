@@ -153,7 +153,12 @@ const Join = ({ t, black }) => {
         </div>
         {currentOffer.package !== 'MONTHLY_ABO' && (
           <div style={{ margin: '5px 0 30px' }}>
-            <A href='#'>
+            <A
+              href='#'
+              onClick={e => {
+                e.preventDefault()
+              }}
+            >
               Alternative Zahlungsarten: Postcard, Paypal oder Banküberweisung
             </A>
           </div>
@@ -183,7 +188,14 @@ const Join = ({ t, black }) => {
           {currentOffer.price}
         </Button>
         <div style={{ margin: '20px 0 20px' }}>
-          <A href='#'>Zum kompletten Angebot</A>
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+            }}
+          >
+            Zum kompletten Angebot
+          </A>
         </div>
       </form>
     </Elements>
