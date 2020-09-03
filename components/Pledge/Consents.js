@@ -21,7 +21,7 @@ export const getConsentsError = (t, required, accepted) =>
   t(`pledge/consents/error/${stringifyCombo(required)}`)
 
 const Consents = withT(
-  ({ t, accepted, onChange, required, disabled, error, darkMode }) => {
+  ({ t, accepted, onChange, required, disabled, error, darkMode, black }) => {
     const [overlay, setOverlay] = useState()
     return (
       <>
@@ -35,6 +35,7 @@ const Consents = withT(
         )}
         <Checkbox
           white={darkMode}
+          black={black}
           error={error}
           disabled={disabled}
           checked={check(required, accepted)}
@@ -65,6 +66,7 @@ const Consents = withT(
           >
             <RawHtml
               white={darkMode}
+              black={black}
               error={error}
               dangerouslySetInnerHTML={{
                 __html: t(`pledge/consents/label/${stringifyCombo(required)}`)

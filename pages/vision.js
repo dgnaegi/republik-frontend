@@ -55,6 +55,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../components/constants'
 import VideoCover from '../components/VideoCover'
 import ReasonsCover from '../components/Crowdfunding/ReasonsCover'
 import { getRandomReason } from '../components/Crowdfunding/reasonData'
+import Join from '../components/Pledge/Join'
 
 const VIDEOS = {
   main: {
@@ -359,14 +360,6 @@ Einerseits als konkreten Beitrag zur Vielfalt. Mit einem Medium, das Unabhängig
 Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
         `}
 
-        {!inNativeIOSApp && (
-          <Link route='pledge' passHref>
-            <Button primary style={{ marginTop: 10 }}>
-              Jetzt mitmachen!
-            </Button>
-          </Link>
-        )}
-
         <div style={{ margin: '20px 0 40px' }}>
           <Label style={{ display: 'block', marginBottom: 5 }}>
             Jetzt andere auf die Republik aufmerksam machen:
@@ -374,6 +367,7 @@ Eine Republik baut niemand alleine, sondern nur viele gemeinsam. Wir mit Ihnen?
           <ShareButtons {...shareProps} />
         </div>
 
+        <Join />
         <br />
         <br />
         <br />
