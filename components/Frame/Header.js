@@ -397,6 +397,7 @@ const styles = {
   logo: css({
     display: 'block',
     padding: LOGO_PADDING_MOBILE,
+    paddingTop: 13,
     width: LOGO_WIDTH_MOBILE - 12 + LOGO_PADDING_MOBILE * 2,
     verticalAlign: 'middle',
     paddingLeft: 4,
