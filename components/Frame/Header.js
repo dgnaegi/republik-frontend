@@ -7,7 +7,8 @@ import {
   colors,
   mediaQueries,
   ColorContext,
-  HeaderHeightProvider
+  HeaderHeightProvider,
+  Interaction
 } from '@project-r/styleguide'
 
 import { Router } from '../../lib/routes'
@@ -261,19 +262,23 @@ const Header = ({
             </div>
             <div {...styles.navBarItem}>
               <div {...styles.rightBarItem}>
-                <Toggle
-                  expanded={isAnyNavExpanded}
-                  dark={dark}
-                  title={t(
-                    `header/nav/${
-                      expandedNav === 'main' ? 'close' : 'open'
-                    }/aria`
-                  )}
-                  id='main'
-                  onClick={() =>
-                    isAnyNavExpanded ? closeHandler() : toggleExpanded('main')
-                  }
-                />
+                <div
+                  style={{
+                    backgroundColor: '#191919',
+                    color: colors.negative.text,
+                    height: 30,
+                    width: 120,
+                    verticalAlign: 'middle',
+                    marginRight: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Interaction.P style={{ color: 'white', fontSize: 16 }}>
+                    Mitmachen ♥︎
+                  </Interaction.P>
+                </div>
               </div>
             </div>
           </div>
@@ -360,20 +365,20 @@ const styles = {
     justifyContent: 'space-between'
   }),
   navBarItem: css({
-    flex: 1,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   }),
   leftBarItem: css({
-    marginRight: 'auto',
     display: 'flex',
     justifyContent: 'flex-start',
-    width: '100%'
+    paddingRight: 4,
+    borderRight: '1px solid lightgray'
   }),
   rightBarItem: css({
     marginLeft: 'auto',
     width: '100%',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'flex-end',
     '@media print': {
       display: 'none'
@@ -389,8 +394,9 @@ const styles = {
   logo: css({
     display: 'block',
     padding: LOGO_PADDING_MOBILE,
-    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
+    width: LOGO_WIDTH_MOBILE - 12 + LOGO_PADDING_MOBILE * 2,
     verticalAlign: 'middle',
+    paddingLeft: 4,
     [mediaQueries.mUp]: {
       padding: LOGO_PADDING,
       width: LOGO_WIDTH + LOGO_PADDING * 2
