@@ -64,7 +64,7 @@ const useScale = baseWidth => {
 
 const FullFrontal = () => {
   const meta = {
-    pageTitle: 'Seite 1',
+    pageTitle: 'Republik Magazin',
     title: 'Republik',
     description: 'Republik',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
@@ -82,7 +82,7 @@ const FullFrontal = () => {
             margin: '0 auto'
           }}
         >
-          <div {...styles.carusell}>
+          <div {...styles.carusell} style={{ paddingTop: 20 }}>
             <div
               {...styles.item}
               style={{ paddingLeft: 15 * scale, width: 315 * scale }}
@@ -115,7 +115,7 @@ const FullFrontal = () => {
               style={{
                 width: 375 * scale,
                 verticalAlign: 'top',
-                paddingTop: 5
+                marginTop: -7 * scale
               }}
             >
               <img src='/static/marketing/card1_b.png' />
@@ -183,12 +183,18 @@ const FullFrontal = () => {
           width='100%'
           src='/static/marketing/community_2.png'
         />
-        <PathLink path='/2020/08/29/die-sklaverei-erzaehlen' passHref>
-          <a style={{ textDecoration: 'none' }}>
+        <PathLink path='/2020/08/27/was-ist-los-in-der-svp-herr-heer' passHref>
+          <a
+            style={{
+              textDecoration: 'none',
+              padding: 15 * scale,
+              display: 'block'
+            }}
+          >
             <img
               style={{ display: 'block' }}
               width='100%'
-              src='/static/marketing/community_3.png'
+              src='/static/marketing/community_3_kor.png'
             />
           </a>
         </PathLink>
