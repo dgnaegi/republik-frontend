@@ -6,7 +6,9 @@ import {
   Button,
   fontStyles,
   Editorial,
-  A
+  A,
+  Label,
+  mediaQueries
 } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import isEmail from 'validator/lib/isEmail'
@@ -14,6 +16,7 @@ import Consents, { getConsentsError } from './Consents'
 import { Elements, CardElement } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
+import { css } from 'glamor'
 
 const OFFERS = [
   {
@@ -40,6 +43,20 @@ const OFFERS = [
 ]
 
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
+const styles = {
+  label: css({
+    color: '#B7C1BD',
+    fontSize: 12,
+    lineHeight: '13px',
+    ...fontStyles.sansSerifRegular,
+    marginBottom: 13,
+    [mediaQueries.mUp]: {
+      marginBottom: 9,
+      fontSize: 14,
+      lineHeight: '15px'
+    }
+  })
+}
 
 const Join = ({ t, black, start }) => {
   const [currentOffer, setOffer] = useState(OFFERS[1])
@@ -128,6 +145,7 @@ const Join = ({ t, black, start }) => {
             marginBottom: 20
           }}
         >
+          <div {...styles.label}>Ihre Kreditkarte</div>
           <CardElement
             options={{
               hidePostalCode: true,
