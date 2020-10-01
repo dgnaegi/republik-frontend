@@ -11,7 +11,7 @@ import { scrollToEnd } from '../lib/utils/scroll'
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const IndexPage = () => {
-  const [page, setPage] = useState('page2')
+  const [page, setPage] = useState('combo')
 
   switch (page) {
     case null:
@@ -42,6 +42,8 @@ const IndexPage = () => {
       return <FullFrontal />
     case 'page2':
       return <BeautyBeast />
+    case 'combo':
+      return <Combo />
     default:
       return
   }
@@ -357,6 +359,161 @@ const BeautyBeast = () => {
               style={{ display: 'block' }}
               width='100%'
               src='/static/marketing/community_3_kor.png'
+            />
+          </a>
+        </PathLink>
+        <br />
+        <br />
+        <br />
+        <div style={{ padding: 15 }}>
+          <Join start />
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
+const Combo = () => {
+  const meta = {
+    pageTitle: 'Republik Magazin',
+    title: 'Republik',
+    description: 'Republik',
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
+    url: `${PUBLIC_BASE_URL}/`
+  }
+  const scale = Math.min(1, useScale(375))
+  return (
+    <Frame raw meta={meta}>
+      <div style={{ backgroundColor: '#000' }}>
+        <div
+          style={{
+            position: 'relative',
+            minHeight: '100vh',
+            maxWidth: 375,
+            margin: '0 auto'
+          }}
+        >
+          <br />
+          <img
+            style={{ display: 'block' }}
+            width='100%'
+            src='/static/marketing/what_mini.png'
+          />
+          <br />
+          <PathLink
+            path='/2020/09/02/vom-zauber-des-belanglosen-innehaltens'
+            passHref
+          >
+            <a style={{ display: 'block', marginLeft: 10, marginBottom: -15 }}>
+              <img src='/static/marketing/card0_0.png' width='100%' />
+            </a>
+          </PathLink>
+          <PathLink path='/2020/08/28/plopp' passHref>
+            <a
+              style={{ display: 'block', position: 'relative', marginLeft: 10 }}
+            >
+              <img src='/static/marketing/card0_1.png' width='100%' />
+              <img
+                style={{
+                  position: 'absolute',
+                  left: 181 * scale,
+                  top: 35 * scale,
+                  width: 167 * scale
+                }}
+                src='/static/marketing/plop.gif'
+              />
+            </a>
+          </PathLink>
+          <img
+            style={{ display: 'block' }}
+            width='100%'
+            src='/static/marketing/more.png'
+          />
+
+          <br />
+          <br />
+          <div style={{ backgroundColor: 'black', padding: 15 }}>
+            <Button
+              onClick={e => {
+                e.preventDefault()
+                scrollToEnd()
+              }}
+              block
+              style={{ backgroundColor: '#fff', color: '#000' }}
+              white
+            >
+              Jetzt abonnieren
+            </Button>
+          </div>
+          <img
+            style={{ display: 'block' }}
+            width='100%'
+            src='/static/marketing/warum_solo.png'
+          />
+          <img
+            style={{ display: 'block' }}
+            width='100%'
+            src='/static/marketing/rubriken.png'
+          />
+          <img
+            style={{ display: 'block' }}
+            width='100%'
+            src='/static/marketing/team.png'
+          />
+        </div>
+      </div>
+      <div
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          maxWidth: 375,
+          margin: '0 auto'
+        }}
+      >
+        <br />
+        <br />
+        <img
+          style={{ display: 'block' }}
+          width='100%'
+          src='/static/marketing/community_0.png'
+        />
+        <PathLink path='/2020/09/01/der-patriarch-in-dir' passHref>
+          <a style={{ textDecoration: 'none' }}>
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/community_1.png'
+            />
+          </a>
+        </PathLink>
+        <img
+          style={{ display: 'block' }}
+          width='100%'
+          src='/static/marketing/community_2.png'
+        />
+        <PathLink path='/2020/08/27/was-ist-los-in-der-svp-herr-heer' passHref>
+          <a
+            style={{
+              textDecoration: 'none',
+              padding: 15 * scale,
+              display: 'block'
+            }}
+          >
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/community_3_kor.png'
+            />
+          </a>
+        </PathLink>
+        <br />
+        <br />
+        <PathLink path='/vision' passHref>
+          <a style={{ textDecoration: 'none' }}>
+            <img
+              style={{ display: 'block' }}
+              width='100%'
+              src='/static/marketing/mission.png'
             />
           </a>
         </PathLink>
